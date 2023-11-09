@@ -25,6 +25,8 @@ struct _GFX
 };
 typedef struct _GFX GFX;
 
+
+
 GFX GFX_construct(uint32_t defaultForeground, uint32_t defaultBackground);
 
 void GFX_resetColors(GFX* gfx);
@@ -39,5 +41,11 @@ void GFX_drawHollowCircle(GFX* gfx, int x, int y, int radius);
 
 void GFX_removeSolidCircle(GFX* gfx, int x, int y, int radius);
 void GFX_removeHollowCircle(GFX* gfx, int x, int y, int radius);
+
+
+void draw_Base(GFX* gfx);
+
+void InitGraphics(GFX* gfx);
+void drawXY(GFX* gfx, unsigned int x, unsigned int y);
 
 #endif /* API_GRAPHICS_H_ */

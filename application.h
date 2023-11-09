@@ -42,7 +42,7 @@ Application Application_construct();
 void Application_loop(Application* app, HAL* hal);
 
 
-
+void MoveCircle(GFX* gfx, bool moveToLeft, bool moveToRight,bool moveToUp, bool moveToDown, Application* app);
 
 
 #endif /* APPLICATION_H_ */

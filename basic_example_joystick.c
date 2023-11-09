@@ -1,6 +1,6 @@
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 
-#include "graphics_HAL.h"
+
 
 #include "application.h"
 
@@ -124,11 +124,12 @@ void Application_loop(Application* app, HAL* hal)
 
 
       Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_BLUE );
-        Graphics_fillCircle(&app->gfx.context,  20, (app->frameIndex + app->frameOffset)%100, 5);
+        Graphics_fillCircle(&app->gfx.context,  20, (app->frameIndex + app->frameOffset)%90, 5);//wipe previous circles drawn
 
         //Graphics_setForegroundColor(&app->gfx.context,colormix(r,g,b));
 
-
+        Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_BLUE );
+              Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndex + app->frameOffset)%90, 5);//wipe previous circles
 
 
        //  Graphics_setForegroundColor(&app->gfx.context,colormix(r,g,b));
@@ -139,17 +140,19 @@ void Application_loop(Application* app, HAL* hal)
 
 
 
-        if (app->frameIndex==100)
+        if (app->frameIndex==90)
         {
             app->frameIndex = 40;
             app->frameOffset++;
-            if (app->frameOffset==100)
+            if (app->frameOffset==90)
                 app->frameOffset = 0;
         }
 
        Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_PINK );
-        Graphics_fillCircle(&app->gfx.context,  20, (app->frameIndex + app->frameOffset)%100, 5);
+        Graphics_fillCircle(&app->gfx.context,  20, (app->frameIndex + app->frameOffset)%90, 5);
 
+        Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_GREEN );
+        Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndex + app->frameOffset)%90, 5);
         ///////////////////////////////////////////// joystick controls
 
         bool joyStickPushedtoRight = false;////boolean for each type of joystick position
@@ -178,7 +181,7 @@ void Application_loop(Application* app, HAL* hal)
            joyStickPushedtoDown = true;
           }
 
-        MoveCircle(&app->gfx.context, joyStickPushedtoLeft,joyStickPushedtoRight,joyStickPushedtoDown,joyStickPushedtoUp);//old circle is removed and new circle is drawn
+        MoveCircle(&app->gfx.context, joyStickPushedtoLeft,joyStickPushedtoRight,joyStickPushedtoDown,joyStickPushedtoUp,&app);//old circle is removed and new circle is drawn
  ////////////////////////////////////
 
 

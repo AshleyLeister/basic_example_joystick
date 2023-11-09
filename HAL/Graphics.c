@@ -7,6 +7,10 @@
 
 #include <HAL/Graphics.h>
 
+#include <HAL/HAL.h>
+#include <HAL/Timer.h>
+#include <application.h>
+
 #include <ti/grlib/grlib.h>
 #include "LcdDriver/Crystalfontz128x128_ST7735.h"
 
@@ -111,21 +115,21 @@ void make_5digit_NumString(unsigned int num, int8_t *string)
     string[5]= 0;
 }
 
-void drawXY(Graphics_Context *g_sContext_p, unsigned int x, unsigned int y)
+void drawXY(GFX* gfx, unsigned int x, unsigned int y)
 {
     int8_t string[6];
 
-    Graphics_drawString(g_sContext_p, (int8_t *)"x=", -1, 10, 5, true);
+    Graphics_drawString(&gfx->context, (int8_t *)"x=", -1, 10, 5, true);
     make_5digit_NumString(x, string);
-    Graphics_drawString(g_sContext_p, string, -1, 30, 5, true);
+    Graphics_drawString(&gfx->context, string, -1, 30, 5, true);
 
-    Graphics_drawString(g_sContext_p, (int8_t *)"y=", -1, 10, 15, true);
+    Graphics_drawString(&gfx->context, (int8_t *)"y=", -1, 10, 15, true);
     make_5digit_NumString(y, string);
-    Graphics_drawString(g_sContext_p, string, -1, 30, 15, true);
+    Graphics_drawString(&gfx->context, string, -1, 30, 15, true);
 }
 
 
-void draw_Base(Graphics_Context *g_sContext_p)
+void draw_Base(GFX* gfx)
 {
     Graphics_Rectangle R;
     R.xMin = 0;
@@ -133,10 +137,10 @@ void draw_Base(Graphics_Context *g_sContext_p)
     R.yMin = 32;
     R.yMax = 96;
 
-    Graphics_drawRectangle(g_sContext_p, &R);
-    Graphics_fillCircle(g_sContext_p, 63, 63, 10);
-    Graphics_drawString(g_sContext_p, (int8_t *)"circle move #:", -1, 10, 100, false);
-    Graphics_drawString(g_sContext_p, (int8_t *)"000", -1, 10, 110, true);
+    Graphics_drawRectangle(&gfx->context, &R);
+    Graphics_fillCircle(&gfx->context, 63, 63, 10);
+    Graphics_drawString(&gfx->context, (int8_t *)"circle move #:", -1, 10, 100, false);
+    Graphics_drawString(&gfx->context, (int8_t *)"000", -1, 10, 110, true);
 }
 
 void make_3digit_NumString(unsigned int num, char *string)
@@ -149,20 +153,21 @@ void make_3digit_NumString(unsigned int num, char *string)
 }
 
 
-void MoveCircle(Graphics_Context *g_sContext_p, bool moveToLeft, bool moveToRight, bool moveToDown, bool moveToUp)
+void MoveCircle(GFX* gfx, bool moveToLeft, bool moveToRight, bool moveToDown, bool moveToUp, Application*app)
 {
     static unsigned int x = 63;
     static unsigned int y = 63;
 
     static unsigned int moveCount = 0;
+    static unsigned int pollenCount = 0;
     char string[4];
 
     if ((moveToLeft && (x>20)) || (moveToRight && (x<110))||(moveToDown && (y>40)) || (moveToUp && (y<90)))
     {
 
-        Graphics_setForegroundColor(g_sContext_p, GRAPHICS_COLOR_BLUE);
+        Graphics_setForegroundColor(&gfx->context, GRAPHICS_COLOR_BLUE);
 
-        Graphics_fillCircle(g_sContext_p, x, y, 10);//get rid of previous circle
+        Graphics_fillCircle(&gfx->context, x, y, 10);//get rid of previous circle
 
         if (moveToLeft)//if boolean movetoleft is true
             x = x-10;
@@ -176,13 +181,22 @@ void MoveCircle(Graphics_Context *g_sContext_p, bool moveToLeft, bool moveToRigh
         if(moveToUp)//if boolean movetoup is true
            y = y-10;
 
-        Graphics_setForegroundColor(g_sContext_p, GRAPHICS_COLOR_YELLOW);//draw new circle in new location
-        Graphics_fillCircle(g_sContext_p, x, y, 10);
+        Graphics_setForegroundColor(&gfx->context, GRAPHICS_COLOR_YELLOW);//draw new circle in new location
+        Graphics_fillCircle(&gfx->context, x, y, 10);//draw new circle in new location
 
         moveCount++;
-        make_3digit_NumString(moveCount, string);
-        Graphics_drawString(g_sContext_p, (int8_t *) string, -1, 10, 110, true);
-    }
+        make_3digit_NumString(moveCount, string);//adds to move count
+        Graphics_drawString(&gfx->context, (int8_t *) string, -1, 10, 110, true);
+
+
+
+        if ((app->frameIndex==y) && (x==20))
+                {
+        pollenCount++;
+        make_3digit_NumString(pollenCount, string);
+        Graphics_drawString(&gfx->context, (int8_t *) string, -1, 30, 110, true);
+        }
+}
 
 }
 
@@ -194,16 +208,16 @@ void InitFonts() {
 }
 
 
-void InitGraphics(Graphics_Context *g_sContext_p) {
+void InitGraphics(GFX* gfx) {
 
-    Graphics_initContext(g_sContext_p,
+    Graphics_initContext(&gfx->context,
                          &g_sCrystalfontz128x128,
                          &g_sCrystalfontz128x128_funcs);
-    Graphics_setForegroundColor(g_sContext_p, GRAPHICS_COLOR_YELLOW);
-    Graphics_setBackgroundColor(g_sContext_p, GRAPHICS_COLOR_BLUE);
-    Graphics_setFont(g_sContext_p, &g_sFontCmtt12);
+    Graphics_setForegroundColor(&gfx->context, GRAPHICS_COLOR_YELLOW);
+    Graphics_setBackgroundColor(&gfx->context, GRAPHICS_COLOR_BLUE);
+    Graphics_setFont(&gfx->context, &g_sFontCmtt12);
 
     InitFonts();
 
-    Graphics_clearDisplay(g_sContext_p);
+    Graphics_clearDisplay(&gfx->context);
 }
