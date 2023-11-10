@@ -129,12 +129,12 @@ void Application_loop(Application* app, HAL* hal)
                    unsigned char lifeString[6];
 
       Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_BLUE );
-      Graphics_fillCircle(&app->gfx.context,  20, (app->frameIndex + app->frameOffset)%90, 5);//wipe previous flower circles drawn
+      Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndex + app->frameOffset)%90, 5);//wipe previous flower circles drawn
 
         //Graphics_setForegroundColor(&app->gfx.context,colormix(r,g,b));
 
       Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_BLUE );
-      Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndex + app->frameOffset)%90,2);//wipe previous pollen circles
+      Graphics_fillCircle(&app->gfx.context,  20, (app->frameIndex + app->frameOffset)%90,2);//wipe previous pollen circles
 
       Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_BLUE );
       Graphics_fillCircle(&app->gfx.context,  80, (app->frameIndexx + app->frameOffsetx)%90, 2);//wipe previous pollen+flower circles
@@ -160,7 +160,7 @@ void Application_loop(Application* app, HAL* hal)
 
 
             snprintf((char *) lifeString, 10, "life %d",count3--);
-            GFX_print(&app->gfx.context, (char*) lifeString, 14, 11);
+            GFX_print(&app->gfx.context, (char*) lifeString, 13, 11);
 
 
         }
@@ -176,7 +176,7 @@ void Application_loop(Application* app, HAL* hal)
 
 
             snprintf((char *) lifeString, 10, "life %d",count3--);
-            GFX_print(&app->gfx.context, (char*) lifeString, 14, 11);
+            GFX_print(&app->gfx.context, (char*) lifeString, 13, 11);
 
 
         }
@@ -186,10 +186,10 @@ void Application_loop(Application* app, HAL* hal)
 
 
         Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_PINK );
-        Graphics_fillCircle(&app->gfx.context,  20, (app->frameIndex + app->frameOffset)%90, 5);//flower
+        Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndex + app->frameOffset)%90, 5);//flower
 
         Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_GREEN );
-        Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndex + app->frameOffset)%90, 2);//pollen
+        Graphics_fillCircle(&app->gfx.context,  20, (app->frameIndex + app->frameOffset)%90, 2);//pollen
 
 
         Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_PINK);//flower and pollen
@@ -225,12 +225,16 @@ void Application_loop(Application* app, HAL* hal)
           }
 
       /// MoveCircle(&app->gfx.context, joyStickPushedtoLeft,joyStickPushedtoRight,joyStickPushedtoDown,joyStickPushedtoUp,&app);//old circle is removed and new circle is drawn
- ////////////////////////////////////move circle code
+ ////////////////////////////////////move circle code this section causes application loop to end??????
         static unsigned int x = 63;
         static unsigned int y = 63;
 
         static unsigned int moveCount = 0;
         static unsigned int pollenCount = 0;
+
+
+
+
         char string[4];
 
         if ((joyStickPushedtoLeft && (x>20)) || (joyStickPushedtoRight && (x<110))||(joyStickPushedtoDown && (y<75)) || (joyStickPushedtoUp && (y>45)))
@@ -256,8 +260,10 @@ void Application_loop(Application* app, HAL* hal)
             Graphics_fillCircle(&app->gfx.context, x, y, 10);//draw new circle in new location
 
             moveCount++;
-            make_3digit_NumString(moveCount, string);//adds to move count
-            Graphics_drawString(&app->gfx.context, (int8_t *) string, -1, 10, 110, true);
+            static int count1 = 0;
+            unsigned char MoveString[6];
+            snprintf((char *) MoveString, 10, "Moves %d",count1--);
+                             GFX_print(&app->gfx.context, (char*) MoveString, 12, 11);
 
             static int count2 = 0;
             unsigned char PollenString[6];
@@ -266,7 +272,7 @@ void Application_loop(Application* app, HAL* hal)
                           {
 
                 snprintf((char *) PollenString, 10, "Pollen %d",count2++);
-                 GFX_print(&app->gfx.context, (char*) PollenString, 14, 10);
+                 GFX_print(&app->gfx.context, (char*) PollenString, 14, 11);
 
 
                           }
