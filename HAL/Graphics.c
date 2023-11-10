@@ -162,7 +162,7 @@ void MoveCircle(GFX* gfx, bool moveToLeft, bool moveToRight, bool moveToDown, bo
     static unsigned int pollenCount = 0;
     char string[4];
 
-    if ((moveToLeft && (x>20)) || (moveToRight && (x<110))||(moveToDown && (y>40)) || (moveToUp && (y<90)))
+    if ((moveToLeft && (x>20)) || (moveToRight && (x<110))||(moveToDown && (y<75)) || (moveToUp && (y>45)))
     {
 
         Graphics_setForegroundColor(&gfx->context, GRAPHICS_COLOR_BLUE);
