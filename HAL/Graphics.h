@@ -43,7 +43,7 @@ void GFX_removeSolidCircle(GFX* gfx, int x, int y, int radius);
 void GFX_removeHollowCircle(GFX* gfx, int x, int y, int radius);
 
 
-void draw_Base(GFX* gfx);
+void draw_Base(Graphics_Context *g_sContext_p);
 
 void InitGraphics(GFX* gfx);
 void drawXY(GFX* gfx, unsigned int x, unsigned int y);

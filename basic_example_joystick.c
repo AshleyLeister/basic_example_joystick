@@ -40,7 +40,6 @@ unsigned colormix(unsigned r,unsigned g,unsigned b) {
 
 
 
-
 int main(void)
 {
     WDT_A_holdTimer();
@@ -146,6 +145,14 @@ void Application_loop(Application* app, HAL* hal)
             app->frameOffset++;
             if (app->frameOffset==90)
                 app->frameOffset = 0;
+
+
+            static int count3 = 9;
+            unsigned char lifeString[6];
+            snprintf((char *) lifeString, 10, "life %d",count3--);
+            GFX_print(&app->gfx.context, (char*) lifeString, 1, 11);
+
+
         }
 
        Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_PINK );
@@ -275,4 +282,3 @@ void getSampleJoyStick(unsigned *X, unsigned *Y) {
     // TODO: Read the Y channel
     *Y = ADC14_getResult(ADC_MEM1);
 }
-

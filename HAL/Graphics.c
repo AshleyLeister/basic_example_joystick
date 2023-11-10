@@ -129,7 +129,7 @@ void drawXY(GFX* gfx, unsigned int x, unsigned int y)
 }
 
 
-void draw_Base(GFX* gfx)
+void draw_Base(Graphics_Context *g_sContext_p)
 {
     Graphics_Rectangle R;
     R.xMin = 0;
@@ -137,10 +137,10 @@ void draw_Base(GFX* gfx)
     R.yMin = 32;
     R.yMax = 96;
 
-    Graphics_drawRectangle(&gfx->context, &R);
-    Graphics_fillCircle(&gfx->context, 63, 63, 10);
-    Graphics_drawString(&gfx->context, (int8_t *)"circle move #:", -1, 10, 100, false);
-    Graphics_drawString(&gfx->context, (int8_t *)"000", -1, 10, 110, true);
+    Graphics_drawRectangle(g_sContext_p, &R);
+    Graphics_fillCircle(g_sContext_p, 63, 63, 10);
+    Graphics_drawString(g_sContext_p, (int8_t *)"circle move #:", -1, 10, 100, false);
+    Graphics_drawString(g_sContext_p, (int8_t *)"000", -1, 10, 110, true);
 }
 
 void make_3digit_NumString(unsigned int num, char *string)
