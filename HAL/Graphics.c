@@ -153,52 +153,9 @@ void make_3digit_NumString(unsigned int num, char *string)
 }
 
 
-void MoveCircle(GFX* gfx, bool moveToLeft, bool moveToRight, bool moveToDown, bool moveToUp, Application*app)
-{
-    static unsigned int x = 63;
-    static unsigned int y = 63;
-
-    static unsigned int moveCount = 0;
-    static unsigned int pollenCount = 0;
-    char string[4];
-
-    if ((moveToLeft && (x>20)) || (moveToRight && (x<110))||(moveToDown && (y<75)) || (moveToUp && (y>45)))
-    {
-
-        Graphics_setForegroundColor(&gfx->context, GRAPHICS_COLOR_BLUE);
-
-        Graphics_fillCircle(&gfx->context, x, y, 10);//get rid of previous circle
-
-        if (moveToLeft)//if boolean movetoleft is true
-            x = x-10;
-
-        if(moveToRight)//if boolean movetoright is true
-            x = x+10;
-
-        if (moveToDown)//if boolean movetodown is true
-           y = y+10;
-
-        if(moveToUp)//if boolean movetoup is true
-           y = y-10;
-
-        Graphics_setForegroundColor(&gfx->context, GRAPHICS_COLOR_YELLOW);//draw new circle in new location
-        Graphics_fillCircle(&gfx->context, x, y, 10);//draw new circle in new location
-
-        moveCount++;
-        make_3digit_NumString(moveCount, string);//adds to move count
-        Graphics_drawString(&gfx->context, (int8_t *) string, -1, 10, 110, true);
 
 
 
-        if ((app->frameIndex==y) && (x==20))
-                {
-        pollenCount++;
-        make_3digit_NumString(pollenCount, string);
-        Graphics_drawString(&gfx->context, (int8_t *) string, -1, 30, 110, true);
-        }
-}
-
-}
 
 
 
