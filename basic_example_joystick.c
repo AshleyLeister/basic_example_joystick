@@ -36,7 +36,11 @@ void getSampleJoyStick(unsigned *X, unsigned *Y);
 unsigned colormix(unsigned r,unsigned g,unsigned b) {
     return ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff);
 }
+static int count2 = 0;
+      unsigned char PollenString[6];
 
+      static int score = 0;
+      unsigned char ScoreString[6];
 
 
 
@@ -129,7 +133,7 @@ void Application_loop(Application* app, HAL* hal)
         b = 254 - g;
 
         static int count3 = 9;
-                   unsigned char lifeString[6];
+        unsigned char lifeString[6];
 
       Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_BLUE );
       Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndexf + app->frameOffsetf)%90, 5);//wipe previous flower circles drawn
@@ -275,24 +279,31 @@ void Application_loop(Application* app, HAL* hal)
             moveCount++;
             static int count1 = 0;//displays moves done
             unsigned char MoveString[6];
+
             snprintf((char *) MoveString, 10, "Moves %d",count1++);
                              GFX_print(&app->gfx.context, (char*) MoveString, 12, 11);
 
-            static int count2 = 0;
-            unsigned char PollenString[6];
+        }
 
-            if (((app->frameIndex + app->frameOffset)>=y) && ((x<25) && (x>20)))
-                          {
+            if (((app->frameIndex + app->frameOffset)>=y) && ((x<25) && (x>20)))//if bee touches pollen
+
 
                 snprintf((char *) PollenString, 10, "Pollen %d",count2++);
                  GFX_print(&app->gfx.context, (char*) PollenString, 14, 11);
 
 
-                          }
+
+
+            if (((app->frameIndexx + app->frameOffsetx)>=y) && ((x<105) && (x>92)))//if bee touches flowers with pollen
+
+
+                       snprintf((char *) ScoreString, 10, "Score %d",score++);
+                        GFX_print(&app->gfx.context, (char*) ScoreString, 15, 11);
 
 
 
-            }
+
+
 
 
 
@@ -369,7 +380,7 @@ void MoveCircle(GFX* gfx, bool joyStickPushedtoLeft, bool joyStickPushedtoRight 
         static int count2 = 0;
         unsigned char PollenString[6];
         static int score = 0;
-        unsigned char ScoreString[6];
+                unsigned char ScoreString[6];
 
 
         if (((app->frameIndex + app->frameOffset)>=y) && ((x<25) && (x>20)))//if bee touches pollen
