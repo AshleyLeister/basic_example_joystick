@@ -31,6 +31,11 @@ struct _Application
     unsigned int frameIndexx;
      unsigned int frameOffsetx;
 
+
+     unsigned int frameIndexf;//index for flowers
+         unsigned int frameOffsetf;
+
+
     SWTimer Launchpad_LED2_blinkingTimer;
 };
 typedef struct _Application Application;

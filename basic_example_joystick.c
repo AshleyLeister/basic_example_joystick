@@ -91,8 +91,11 @@ Application Application_construct()
     app.frameOffset = 60;
 
 
-    app.frameIndexx = 0;//index for flowers
+    app.frameIndexx = 0;//index for flowers w pollen
     app.frameOffsetx = 40;
+
+    app.frameIndexf = 0;//index for flowers
+        app.frameOffsetf = 20;
 
     app.gfx = GFX_construct(GRAPHICS_COLOR_WHITE, GRAPHICS_COLOR_BLACK);
 
@@ -129,7 +132,7 @@ void Application_loop(Application* app, HAL* hal)
                    unsigned char lifeString[6];
 
       Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_BLUE );
-      Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndex + app->frameOffset)%90, 5);//wipe previous flower circles drawn
+      Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndexf + app->frameOffsetf)%90, 5);//wipe previous flower circles drawn
 
         //Graphics_setForegroundColor(&app->gfx.context,colormix(r,g,b));
 
@@ -137,19 +140,19 @@ void Application_loop(Application* app, HAL* hal)
       Graphics_fillCircle(&app->gfx.context,  20, (app->frameIndex + app->frameOffset)%90,2);//wipe previous pollen circles
 
       Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_BLUE );
-      Graphics_fillCircle(&app->gfx.context,  80, (app->frameIndexx + app->frameOffsetx)%90, 2);//wipe previous pollen+flower circles
+      Graphics_fillCircle(&app->gfx.context,  100, (app->frameIndexx + app->frameOffsetx)%90, 2);//wipe previous pollen+flower circles
 
       Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_BLUE );
-      Graphics_fillCircle(&app->gfx.context,  81, (app->frameIndexx + app->frameOffsetx)%90, 5);//wipe previous pollen+flower circles
+      Graphics_fillCircle(&app->gfx.context,  101, (app->frameIndexx + app->frameOffsetx)%90, 5);//wipe previous pollen+flower circles
        //  Graphics_setForegroundColor(&app->gfx.context,colormix(r,g,b));
 
         app->frameIndex++;//adds one to frame index
         app->frameIndexx++;
+        app->frameIndexf++;
 
 
 
-
-        if (app->frameIndex==90)
+        if (app->frameIndex==90)//pollen index
         {
             app->frameIndex = 0;
             app->frameOffset++;
@@ -159,8 +162,6 @@ void Application_loop(Application* app, HAL* hal)
 
 
 
-            snprintf((char *) lifeString, 10, "life %d",count3--);
-            GFX_print(&app->gfx.context, (char*) lifeString, 13, 11);
 
 
         }
@@ -175,27 +176,39 @@ void Application_loop(Application* app, HAL* hal)
 
 
 
-            snprintf((char *) lifeString, 10, "life %d",count3--);
-            GFX_print(&app->gfx.context, (char*) lifeString, 13, 11);
 
 
         }
+        if (app->frameIndexf==90)//index for flower
+             {
+                 app->frameIndexf = 0;
+                 app->frameOffsetf++;
 
+                 if (app->frameOffsetf==90)
+                     app->frameOffsetf = 20;
+
+
+
+                 snprintf((char *) lifeString, 10, "life %d",count3--);
+                 GFX_print(&app->gfx.context, (char*) lifeString, 13, 11);
+
+
+             }
 
 
 
 
         Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_PINK );
-        Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndex + app->frameOffset)%90, 5);//flower
+        Graphics_fillCircle(&app->gfx.context,  70, (app->frameIndexf + app->frameOffsetf)%90, 5);//flower
 
         Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_GREEN );
         Graphics_fillCircle(&app->gfx.context,  20, (app->frameIndex + app->frameOffset)%90, 2);//pollen
 
 
         Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_PINK);//flower and pollen
-        Graphics_fillCircle(&app->gfx.context,  81, (app->frameIndexx + app->frameOffsetx)%90, 5);
+        Graphics_fillCircle(&app->gfx.context,  101, (app->frameIndexx + app->frameOffsetx)%90, 5);
         Graphics_setForegroundColor(&app->gfx.context,GRAPHICS_COLOR_GREEN );//flower and pollen
-        Graphics_fillCircle(&app->gfx.context,  80, (app->frameIndexx + app->frameOffsetx)%90, 2);
+        Graphics_fillCircle(&app->gfx.context,  100, (app->frameIndexx + app->frameOffsetx)%90, 2);
         ///////////////////////////////////////////// joystick controls
 
         bool joyStickPushedtoRight = false;////boolean for each type of joystick position
@@ -260,9 +273,9 @@ void Application_loop(Application* app, HAL* hal)
             Graphics_fillCircle(&app->gfx.context, x, y, 10);//draw new circle in new location
 
             moveCount++;
-            static int count1 = 0;
+            static int count1 = 0;//displays moves done
             unsigned char MoveString[6];
-            snprintf((char *) MoveString, 10, "Moves %d",count1--);
+            snprintf((char *) MoveString, 10, "Moves %d",count1++);
                              GFX_print(&app->gfx.context, (char*) MoveString, 12, 11);
 
             static int count2 = 0;
@@ -276,6 +289,7 @@ void Application_loop(Application* app, HAL* hal)
 
 
                           }
+
 
 
             }
