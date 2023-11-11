@@ -368,15 +368,27 @@ void MoveCircle(GFX* gfx, bool joyStickPushedtoLeft, bool joyStickPushedtoRight 
 
         static int count2 = 0;
         unsigned char PollenString[6];
+        static int score = 0;
+        unsigned char ScoreString[6];
 
-        if (((app->frameIndex + app->frameOffset)>=y) && ((x<25) && (x>20)))
-                      {
+
+        if (((app->frameIndex + app->frameOffset)>=y) && ((x<25) && (x>20)))//if bee touches pollen
+
 
             snprintf((char *) PollenString, 10, "Pollen %d",count2++);
              GFX_print(&app->gfx.context, (char*) PollenString, 14, 10);
 
 
-                      }
+
+
+        if (((app->frameIndexx + app->frameOffsetx)>=y) && ((x<103) && (x>97)))//if bee touches flowers with pollen
+
+
+            snprintf((char *) ScoreString, 10, "Score %d",score++);
+             GFX_print(&app->gfx.context, (char*) ScoreString, 15, 11);
+
+
+
 
 
         }
