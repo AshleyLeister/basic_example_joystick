@@ -294,12 +294,18 @@ void Application_loop(Application* app, HAL* hal)
 
 
 
-            if (((app->frameIndexx + app->frameOffsetx)>=y) && ((x<105) && (x>92)))//if bee touches flowers with pollen
+            if (((app->frameIndexx + app->frameOffsetx)>=y) && ((x<105) && (x>95)))//if bee touches flowers with pollen
 
 
                        snprintf((char *) ScoreString, 10, "Score %d",score++);
                         GFX_print(&app->gfx.context, (char*) ScoreString, 15, 11);
 
+
+                        if (((app->frameIndexf + app->frameOffsetf)>=y) && ((x<75) && (x>68)))//if bee touches flowers with no pollen
+
+
+                                    snprintf((char *) PollenString, 10, "Pollen %d",count2--);//subtract 1 from pollen score
+                                     GFX_print(&app->gfx.context, (char*) PollenString, 14, 11);
 
 
 
@@ -392,10 +398,14 @@ void MoveCircle(GFX* gfx, bool joyStickPushedtoLeft, bool joyStickPushedtoRight 
 
 
 
-        if (((app->frameIndexx + app->frameOffsetx)>=y) && ((x<103) && (x>97)))//if bee touches flowers with pollen
+        if (((app->frameIndexx + app->frameOffsetx)>=y) && ((x<102) && (x>97)))//if bee touches flowers with pollen
 
 
-            snprintf((char *) ScoreString, 10, "Score %d",score++);
+        snprintf((char *) ScoreString, 10, "Score %d",score++);
+        snprintf((char *) ScoreString, 10, "Score %d",score++);
+        snprintf((char *) ScoreString, 10, "Score %d",score++);//adds 3 to score when bee touches flower with pollen
+
+
              GFX_print(&app->gfx.context, (char*) ScoreString, 15, 11);
 
 
